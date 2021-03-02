@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.recyclerview.databinding.ItemMessageBinding
 
 // onClickListener as lambda,
@@ -19,7 +20,7 @@ class MessageAdapter(
 
     // Initialize your ViewHolder here
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
-        Log.d("MessageAdapter", "ViewHolderCalled: ${viewHolderCount++} times")
+        Log.d("MessageAdapter", "ViewHolderCalled: ${++viewHolderCount} times")
         val binding = ItemMessageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MessageViewHolder(binding)
     }
@@ -28,7 +29,7 @@ class MessageAdapter(
     // This method is used to update the contents of the itemView to reflect the item at the given position.
     // For more info https://stackoverflow.com/a/37524217/5938872
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
-        Log.d("MessageAdapter", "OnBindViewHolderCalled: ${onBindViewHolderCount++} times")
+        Log.d("MessageAdapter", "OnBindViewHolderCalled: ${++onBindViewHolderCount} times, Position: $position")
         val message = messageList[position]
         holder.bind(message)
     }
@@ -51,7 +52,7 @@ class MessageAdapter(
 
         // Display necessary data to your Item layout
         fun bind(message: Message) {
-            binding.ivProfile.setImageResource(message.image)
+            Glide.with(binding.root).load(message.image).into(binding.ivProfile)
             binding.tvName.text = message.sender
             binding.tvDate.text = message.dateSent
             binding.tvMessage.text = message.lastMessageSent
